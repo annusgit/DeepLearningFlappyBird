@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 from __future__ import print_function
-
 import tensorflow as tf
 import cv2
 import sys
@@ -9,6 +8,8 @@ import wrapped_flappy_bird as game
 import random
 import numpy as np
 from collections import deque
+import os
+os.environ['TF_CPP_MIN_LOG_LEVEL']='2'   # To supress Tensorflow warnings
 
 GAME = 'bird' # the name of the game being played for log files
 ACTIONS = 2 # number of valid actions
@@ -103,7 +104,7 @@ def trainNetwork(s, readout, h_fc1, sess):
 
     # saving and loading networks
     saver = tf.train.Saver()
-    sess.run(tf.initialize_all_variables())
+    sess.run(tf.global_variables_initializer())
     checkpoint = tf.train.get_checkpoint_state("saved_networks")
     if checkpoint and checkpoint.model_checkpoint_path:
         saver.restore(sess, checkpoint.model_checkpoint_path)
